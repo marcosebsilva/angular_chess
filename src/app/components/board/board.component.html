@@ -1,0 +1,5 @@
+<div class="grid grid-rows-8 grid-cols-8 w-fit" cdkDropListGroup>
+  @for (tile of board; track $index) {
+    <app-tile [color]="defineTileColor($index)" [index]="$index" [content]="board[$index]"></app-tile>
+  }
+</div>
