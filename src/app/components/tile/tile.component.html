@@ -1,0 +1,11 @@
+<div
+    class="w-[4vw] aspect-square"
+    style="background-color: {{color}}"
+    cdkDropList
+    [cdkDropListData]="index"
+    (cdkDropListDropped)="drop($event)"
+>
+    @if(content !== null) {
+        <app-piece [piece]="content"></app-piece>
+    }
+</div>

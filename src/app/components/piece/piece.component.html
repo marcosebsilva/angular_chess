@@ -1,0 +1,11 @@
+@if(piece !== null) {
+<div
+  cdkDrag
+>
+  <div
+    class="block w-[4vw] aspect-square bg-red-600 absolute"
+    *cdkDragPlaceholder
+  ></div>
+  <img [src]="piece.getIcon()" alt="teste" />
+</div>
+}
