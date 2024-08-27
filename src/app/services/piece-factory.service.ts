@@ -1,16 +1,29 @@
 import { Injectable } from '@angular/core';
-import { ChessPieces, Colors, IPiece } from '../core/models/types';
+import { ChessPieces, Colors, IPiece } from '../core/types';
+import { PawnStrategy } from '../core/piece_strategies/pawn-strategy';
+import { RookStrategy } from '../core/piece_strategies/rook-strategy';
+import { QueenStrategy } from '../core/piece_strategies/queen-strategy';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class PieceFactoryService {
+  private pawnMoveStrategy = new PawnStrategy();
+  private rookMoveStrategy = new RookStrategy();
+  private queenMoveStrategy = new QueenStrategy();
+
+  //TODO: implement the rest of the strategies
+  private kingMoveStrategy = new PawnStrategy();
+  private bishopMoveStrategy = new PawnStrategy();
+  private knightMoveStrategy = new PawnStrategy();
+
   public createQueen(color: Colors): IPiece {
     return new IPiece(
       color,
       ChessPieces.QUEEN.name,
       ChessPieces.QUEEN.code,
-      [1, 7, 8, 9]
+      this.queenMoveStrategy,
     );
   }
 
@@ -19,8 +32,7 @@ export class PieceFactoryService {
       color,
       ChessPieces.KING.name,
       ChessPieces.KING.code,
-      [1, 7, 8, 9],
-      false
+      this.kingMoveStrategy
     );
   }
 
@@ -29,7 +41,7 @@ export class PieceFactoryService {
       color,
       ChessPieces.ROOK.name,
       ChessPieces.ROOK.code,
-      [1, 8]
+      this.rookMoveStrategy
     );
   }
 
@@ -38,7 +50,7 @@ export class PieceFactoryService {
       color,
       ChessPieces.BISHOP.name,
       ChessPieces.BISHOP.code,
-      [7, 9]
+      this.bishopMoveStrategy
     );
   }
 
@@ -47,12 +59,11 @@ export class PieceFactoryService {
       color,
       ChessPieces.KNIGHT.name,
       ChessPieces.KNIGHT.code,
-      [6, 10],
-      false
+      this.knightMoveStrategy
     );
   }
 
   public createPawn(color: Colors): IPiece {
-    return new IPiece(color, 'pawn', '', [8], false);
+    return new IPiece(color, 'pawn', '', this.pawnMoveStrategy);
   }
 }
