@@ -1,11 +1,12 @@
 <div
-    class="w-[4vw] aspect-square"
-    style="background-color: {{color}}"
+    class="w-[4vw] aspect-square relative scale-y-[-1]"
+    [style]="style"
     cdkDropList
     [cdkDropListData]="index"
     (cdkDropListDropped)="drop($event)"
 >
     @if(content !== null) {
-        <app-piece [piece]="content"></app-piece>
+        <app-piece [piece]="content" (startDragging)="highlightSquares()"></app-piece>
     }
+    <div class="absolute text-[12px] top-0">{{index}}</div>
 </div>

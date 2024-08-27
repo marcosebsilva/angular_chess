@@ -1,7 +1,5 @@
 @if(piece !== null) {
-<div
-  cdkDrag
->
+<div cdkDrag class="cursor-pointer" (cdkDragStarted)="dragStart()">
   <div
     class="block w-[4vw] aspect-square bg-red-600 absolute"
     *cdkDragPlaceholder
