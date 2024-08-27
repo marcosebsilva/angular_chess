@@ -10,23 +10,20 @@ import { KnightStrategy } from '../core/piece_strategies/knight-strategy';
 @Injectable({
   providedIn: 'root',
 })
-
 export class PieceFactoryService {
-  private pawnMoveStrategy = new PawnStrategy();
-  private rookMoveStrategy = new RookStrategy();
-  private queenMoveStrategy = new QueenStrategy();
-  private bishopMoveStrategy = new BishopStrategy();
-  private kingMoveStrategy = new KingStrategy();
-  private knightMoveStrategy = new KnightStrategy();
-
-  //TODO: implement the rest of the strategies
+  static pawnMoveStrategy = new PawnStrategy();
+  static rookMoveStrategy = new RookStrategy();
+  static queenMoveStrategy = new QueenStrategy();
+  static bishopMoveStrategy = new BishopStrategy();
+  static kingMoveStrategy = new KingStrategy();
+  static knightMoveStrategy = new KnightStrategy();
 
   public createQueen(color: Colors): IPiece {
     return new IPiece(
       color,
       ChessPieces.QUEEN.name,
       ChessPieces.QUEEN.code,
-      this.queenMoveStrategy,
+      PieceFactoryService.queenMoveStrategy,
     );
   }
 
@@ -35,7 +32,7 @@ export class PieceFactoryService {
       color,
       ChessPieces.KING.name,
       ChessPieces.KING.code,
-      this.kingMoveStrategy
+      PieceFactoryService.kingMoveStrategy
     );
   }
 
@@ -44,7 +41,7 @@ export class PieceFactoryService {
       color,
       ChessPieces.ROOK.name,
       ChessPieces.ROOK.code,
-      this.rookMoveStrategy
+      PieceFactoryService.rookMoveStrategy
     );
   }
 
@@ -53,7 +50,7 @@ export class PieceFactoryService {
       color,
       ChessPieces.BISHOP.name,
       ChessPieces.BISHOP.code,
-      this.bishopMoveStrategy
+      PieceFactoryService.bishopMoveStrategy
     );
   }
 
@@ -62,11 +59,11 @@ export class PieceFactoryService {
       color,
       ChessPieces.KNIGHT.name,
       ChessPieces.KNIGHT.code,
-      this.knightMoveStrategy
+      PieceFactoryService.knightMoveStrategy
     );
   }
 
   public createPawn(color: Colors): IPiece {
-    return new IPiece(color, 'pawn', '', this.pawnMoveStrategy);
+    return new IPiece(color, 'pawn', '', PieceFactoryService.pawnMoveStrategy);
   }
 }
