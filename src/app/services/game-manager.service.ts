@@ -1,35 +1,33 @@
 import { Injectable } from '@angular/core';
 import { BoardFactoryService } from './board-factory.service';
-import { Board, Colors, IPiece, Move } from '../core/types';
+import { Board, Colors, Move } from '../core/types';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class GameManagerService {
   private boardSubject: BehaviorSubject<Board>;
   public boardObservable: Observable<Board>;
+  public highlightedTilesObservable: BehaviorSubject<number[]>;
   private moveHistory: Move[] = []
   private currentTurnoColor: Colors = Colors.WHITE;
 
   constructor(
     private boardFactory: BoardFactoryService,
   ) {
+    this.highlightedTilesObservable = new BehaviorSubject<number[]>([]);
     this.boardSubject = new BehaviorSubject(this.boardFactory.createBoard());
     this.boardObservable = this.boardSubject.asObservable();
   }
 
   /**TODO: implement this function */
   private verifyCheck(color: Colors, board: Board = this.boardSubject.getValue()): boolean {
+    console.log("Checking if player is in check", board);
     return false;
-  }
-
-  private getPieceIndex(piece: IPiece) {
-    return this.getBoard().indexOf(piece);
   }
 
   private handleError(message: string){
     console.log(message);
-  }
- 
+  } 
 
   public movePiece(from: number, to: number) {
     /**TODO: fix the return to show a error of some kind */
@@ -73,6 +71,19 @@ export class GameManagerService {
 
     this.changeTurn();
     this.boardSubject.next(newBoard);
+  }
+
+  public setHighlightedTiles(tiles: number[]) {
+    this.highlightedTilesObservable.next(tiles);
+    console.log(tiles);
+  }
+
+  public getHighlightedSquares(): number[] {
+    return this.highlightedTilesObservable.getValue();
+  }
+
+  public clearHighlightedSquares() {
+    this.highlightedTilesObservable.next([]);
   }
 
   private changeTurn() {

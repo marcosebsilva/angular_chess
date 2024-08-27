@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PieceFactoryService } from './piece-factory.service';
-import { Board } from '../core/models/types';
+import { Board, Colors } from '../core/types';
 
 @Injectable({
   providedIn: 'root'
@@ -14,46 +14,46 @@ export class BoardFactoryService {
   public createBoard(): Board {
     return [
       // white pieces
-      this.pieceFactory.createRook('white'),
-      this.pieceFactory.createKnight('white'),
-      this.pieceFactory.createBishop('white'),
-      this.pieceFactory.createQueen('white'),
-      this.pieceFactory.createKing('white'),
-      this.pieceFactory.createBishop('white'),
-      this.pieceFactory.createKnight('white'),
-      this.pieceFactory.createRook('white'),
+      this.pieceFactory.createRook(Colors.WHITE),
+      this.pieceFactory.createKnight(Colors.WHITE),
+      this.pieceFactory.createBishop(Colors.WHITE),
+      this.pieceFactory.createQueen(Colors.WHITE),
+      this.pieceFactory.createKing(Colors.WHITE),
+      this.pieceFactory.createBishop(Colors.WHITE),
+      this.pieceFactory.createKnight(Colors.WHITE),
+      this.pieceFactory.createRook(Colors.WHITE),
       // white pawns
-      this.pieceFactory.createPawn('white'),
-      this.pieceFactory.createPawn('white'),
-      this.pieceFactory.createPawn('white'),
-      this.pieceFactory.createPawn('white'),
-      this.pieceFactory.createPawn('white'),
-      this.pieceFactory.createPawn('white'),
-      this.pieceFactory.createPawn('white'),
-      this.pieceFactory.createPawn('white'),
+      this.pieceFactory.createPawn(Colors.WHITE),
+      this.pieceFactory.createPawn(Colors.WHITE),
+      this.pieceFactory.createPawn(Colors.WHITE),
+      this.pieceFactory.createPawn(Colors.WHITE),
+      this.pieceFactory.createPawn(Colors.WHITE),
+      this.pieceFactory.createPawn(Colors.WHITE),
+      this.pieceFactory.createPawn(Colors.WHITE),
+      this.pieceFactory.createPawn(Colors.WHITE),
       // empty tiles
       null, null, null, null, null, null, null, null,
       null, null, null, null, null, null, null, null,
       null, null, null, null, null, null, null, null,
       null, null, null, null, null, null, null, null,
       // black pawns
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createPawn('black'),
-      this.pieceFactory.createRook('black'),
+      this.pieceFactory.createPawn(Colors.BLACK),
+      this.pieceFactory.createPawn(Colors.BLACK),
+      this.pieceFactory.createPawn(Colors.BLACK),
+      this.pieceFactory.createPawn(Colors.BLACK),
+      this.pieceFactory.createPawn(Colors.BLACK),
+      this.pieceFactory.createPawn(Colors.BLACK),
+      this.pieceFactory.createPawn(Colors.BLACK),
+      this.pieceFactory.createPawn(Colors.BLACK),
       // black pieces
-      this.pieceFactory.createKnight('black'),
-      this.pieceFactory.createBishop('black'),
-      this.pieceFactory.createQueen('black'),
-      this.pieceFactory.createKing('black'),
-      this.pieceFactory.createBishop('black'),
-      this.pieceFactory.createKnight('black'),
-      this.pieceFactory.createRook('black'),
+      this.pieceFactory.createRook(Colors.BLACK),
+      this.pieceFactory.createKnight(Colors.BLACK),
+      this.pieceFactory.createBishop(Colors.BLACK),
+      this.pieceFactory.createQueen(Colors.BLACK),
+      this.pieceFactory.createKing(Colors.BLACK),
+      this.pieceFactory.createBishop(Colors.BLACK),
+      this.pieceFactory.createKnight(Colors.BLACK),
+      this.pieceFactory.createRook(Colors.BLACK),
     ]
   }
 }
