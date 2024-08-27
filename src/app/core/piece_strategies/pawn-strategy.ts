@@ -52,7 +52,6 @@ export class PawnStrategy implements GetMovesStrategy {
         ? currPosition + Directions.UP_LEFT
         : currPosition + Directions.DOWN_RIGHT;
 
-    console.log(leftDiagonalIndex)
     const rightDiagonalIndex = piece.getColor() == 'white'
         ? currPosition + Directions.UP_RIGHT
         : currPosition + Directions.DOWN_LEFT;
