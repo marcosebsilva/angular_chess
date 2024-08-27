@@ -1,4 +1,4 @@
-import { Board, BoardBorders, Directions, GetMovesStrategy, IPiece } from '../types';
+import { Board, Directions, GetMovesStrategy, IPiece } from '../types';
 
 export class PawnStrategy implements GetMovesStrategy {
   execute(piece: IPiece, currPosition: number, board: Board): number[] {
@@ -48,14 +48,14 @@ export class PawnStrategy implements GetMovesStrategy {
    * @returns 
    */
   private getCaptureMoves(piece: IPiece, currPosition: number, board: Board): number[] {
-    const leftDiagonalIndex = piece.getColor() == 'black'
-        ? currPosition + Directions.DOWN_RIGHT
-        : currPosition + Directions.UP_LEFT;
+    const leftDiagonalIndex = piece.getColor() == 'white'
+        ? currPosition + Directions.UP_LEFT
+        : currPosition + Directions.DOWN_RIGHT;
 
-        
-    const rightDiagonalIndex = piece.getColor() == 'black'
-        ? currPosition + Directions.DOWN_LEFT
-        : currPosition + Directions.UP_RIGHT;
+    console.log(leftDiagonalIndex)
+    const rightDiagonalIndex = piece.getColor() == 'white'
+        ? currPosition + Directions.UP_RIGHT
+        : currPosition + Directions.DOWN_LEFT;
         
 
     const rightDiagonalPiece = board[rightDiagonalIndex];
@@ -67,17 +67,11 @@ export class PawnStrategy implements GetMovesStrategy {
 
     if(!hasPieceOnRightDiagonal && !hasPieceOnLeftDiagonal) return moves;
 
-    // as the board is based on a one dimentional array,
-    // we need to check if the piece is on the right or left border
-    // because the index could be on another row.
-    const isOnRightBorder = BoardBorders.RIGHT.includes(currPosition);
-    const isOnLeftBorder = BoardBorders.LEFT.includes(currPosition);
-
-    if(hasPieceOnRightDiagonal && !isOnRightBorder && rightDiagonalPiece?.getColor() != piece.getColor()) {
+    if(hasPieceOnRightDiagonal && rightDiagonalPiece?.getColor() != piece.getColor()) {
         moves.push(rightDiagonalIndex)
     };
 
-    if(hasPieceOnLeftDiagonal && !isOnLeftBorder && leftDiagonalPiece?.getColor() != piece.getColor()) {
+    if(hasPieceOnLeftDiagonal && leftDiagonalPiece?.getColor() != piece.getColor()) {
         moves.push(leftDiagonalIndex);
     }
 
