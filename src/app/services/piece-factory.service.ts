@@ -4,6 +4,8 @@ import { PawnStrategy } from '../core/piece_strategies/pawn-strategy';
 import { RookStrategy } from '../core/piece_strategies/rook-strategy';
 import { QueenStrategy } from '../core/piece_strategies/queen-strategy';
 import { BishopStrategy } from '../core/piece_strategies/bishop-strategy';
+import { KingStrategy } from '../core/piece_strategies/king-strategy';
+import { KnightStrategy } from '../core/piece_strategies/knight-strategy';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +16,10 @@ export class PieceFactoryService {
   private rookMoveStrategy = new RookStrategy();
   private queenMoveStrategy = new QueenStrategy();
   private bishopMoveStrategy = new BishopStrategy();
+  private kingMoveStrategy = new KingStrategy();
+  private knightMoveStrategy = new KnightStrategy();
 
   //TODO: implement the rest of the strategies
-  private kingMoveStrategy = new PawnStrategy();
-  private knightMoveStrategy = new PawnStrategy();
 
   public createQueen(color: Colors): IPiece {
     return new IPiece(
