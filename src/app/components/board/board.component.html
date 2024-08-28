@@ -1,8 +1,5 @@
-<div class="grid grid-rows-8 grid-cols-8 w-fit" cdkDropListGroup dir="">
-  @for (tile of board; track $index) {
-    <app-tile
-      [index]="$index"
-      [content]="board[$index]"
-    ></app-tile>
+<div class="grid gap-0.5 grid-rows-8 grid-cols-8 w-fit" cdkDropListGroup dir="">
+  @for (tile of  board(); track $index) {
+    <app-tile [index]="$index"></app-tile>
   }
 </div>

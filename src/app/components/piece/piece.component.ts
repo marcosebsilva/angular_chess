@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CdkDrag, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
-import { IPiece } from '../../core/types';
+import { TileContent } from '../../core/types';
 
 @Component({
   selector: 'app-piece',
@@ -10,7 +10,7 @@ import { IPiece } from '../../core/types';
   styleUrl: './piece.component.scss'
 })
 export class PieceComponent {
-  @Input({required: true}) piece!: IPiece;
+  @Input({required: true}) piece!: TileContent;
   @Output() startDragging = new EventEmitter();
 
   dragStart(){

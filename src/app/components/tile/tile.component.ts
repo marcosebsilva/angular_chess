@@ -1,58 +1,51 @@
 import { CdkDragDrop, CdkDropList  } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, computed, Input } from '@angular/core';
 import { PieceComponent } from "../piece/piece.component";
-import { TileContent } from '../../core/types';
 import { GameManagerService } from '../../services/game-manager.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-tile',
   standalone: true,
-  imports: [CdkDropList, PieceComponent, CdkDropList],
+  imports: [CdkDropList, PieceComponent, CdkDropList, NgClass],
   templateUrl: './tile.component.html',
   styleUrl: './tile.component.scss',
 })
 
-export class TileComponent implements OnInit {
+export class TileComponent {
   @Input({required: true}) index!: number;
-  @Input({required: true}) content!: TileContent;
-  style = {};
 
-  constructor(private gameManager: GameManagerService){
-    this.gameManager.highlightedTilesObservable.subscribe((tiles: number[]) => {
-      this.style = {
-        'background-color': this.getTileColor(),
-        'filter': tiles.includes(this.index) ? 'blur(16px)' : 'blur(0)'
-      }
-    })
-  }
+  constructor(private gameManager: GameManagerService){}
 
-  getTileColor(){
+  isBlack = computed(() => {
     const row = Math.floor(this.index / 8);
     const col = this.index % 8;
-
-    return (row + col) % 2 == 1 ? '#C3A082' : '#F2E1C3';
-  }
   
+    return (row + col) % 2 == 1;
+  });
+
+  isHighlighted = computed(() => {
+    return this.gameManager.getHighlightedTiles().includes(this.index);
+  })
+
+  piece = computed(() => {
+    return this.gameManager.getBoard()[this.index];
+  });
+
   drop(event: CdkDragDrop<number>) {
     const from = event.previousContainer.data;
     const to = event.container.data;
 
     this.gameManager.movePiece(from, to);
-    this.gameManager.highlightedTilesObservable.next([]); 
+    this.gameManager.clearHighlightedSquares(); 
   }
 
   highlightSquares(){
-    const board = this.gameManager.getBoard();
-    if(this.content == undefined) return;
+    const piece = this.piece();
+    if(!piece) return;
     
-    const legalMoves = this.content?.getMoves(this.index, board);
+    const board = this.gameManager.getBoard();
+    const legalMoves = piece.getMoves(this.index, board);
     this.gameManager.setHighlightedTiles(legalMoves);
-  }
-
-
-  ngOnInit(){
-    this.style = {
-      'background-color': this.getTileColor()
-    }
   }
 }

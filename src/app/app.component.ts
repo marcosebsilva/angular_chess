@@ -9,5 +9,5 @@ import { BoardComponent } from './components/board/board.component';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Chess';
 }
