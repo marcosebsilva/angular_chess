@@ -2,11 +2,11 @@ import {
   Board,
   BoardBorders,
   Directions,
-  GetMovesStrategy,
+  GetPseudoLegalMovesStrategy,
   IPiece,
 } from '../types';
 
-export abstract class SlidingPieceStrategy implements GetMovesStrategy {
+export abstract class SlidingPieceStrategy implements GetPseudoLegalMovesStrategy {
   constructor(
     private directions: Partial<Record<keyof typeof Directions, number>>
   ) {}

@@ -20,7 +20,8 @@ export class TileComponent implements OnInit {
   constructor(private gameManager: GameManagerService){
     this.gameManager.highlightedTilesObservable.subscribe((tiles: number[]) => {
       this.style = {
-        'background-color': tiles.includes(this.index) ? 'green' : this.getTileColor()
+        'background-color': this.getTileColor(),
+        'filter': tiles.includes(this.index) ? 'blur(16px)' : 'blur(0)'
       }
     })
   }

@@ -1,5 +1,5 @@
 <div
-    class="w-[4vw] aspect-square relative scale-y-[-1]"
+    class=" aspect-square relative"
     [style]="style"
     cdkDropList
     [cdkDropListData]="index"
@@ -8,5 +8,4 @@
     @if(content !== null) {
         <app-piece [piece]="content" (startDragging)="highlightSquares()"></app-piece>
     }
-    <div class="absolute text-[12px] top-0">{{index}}</div>
 </div>

@@ -18,8 +18,7 @@ export enum Colors {
     BLACK = 'black',
 }
 
-export abstract class GetMovesStrategy {
-    // singleton
+export abstract class GetPseudoLegalMovesStrategy {
     public abstract execute(piece: IPiece, currPosition: number, board: Board): number[];
 }
 
@@ -47,13 +46,13 @@ export class IPiece {
         private color: Colors,
         private name: string,
         private code: string,
-        public getMovesStrategy: GetMovesStrategy,
+        public getPseudoLegalMovesStrategy: GetPseudoLegalMovesStrategy,
     ){
         this.icon = `assets/svg/chess_pieces/${color}_${name}.svg`
     }
 
-    setMoveStrategy(strategy: GetMovesStrategy): void {
-        this.getMovesStrategy = strategy;
+    setMoveStrategy(strategy: GetPseudoLegalMovesStrategy): void {
+        this.getPseudoLegalMovesStrategy = strategy;
     }
 
     getColor(): Colors {
@@ -73,7 +72,7 @@ export class IPiece {
     }
 
     getMoves(currPosition: number, board: Board): number[] {
-        return this.getMovesStrategy.execute(this, currPosition, board);
+        return this.getPseudoLegalMovesStrategy.execute(this, currPosition, board);
     }  
 }
 

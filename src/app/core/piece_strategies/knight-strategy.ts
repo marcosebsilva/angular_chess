@@ -1,6 +1,6 @@
-import { Board, GetMovesStrategy, IPiece } from '../types';
+import { Board, GetPseudoLegalMovesStrategy, IPiece } from '../types';
 
-export class KnightStrategy implements GetMovesStrategy {
+export class KnightStrategy implements GetPseudoLegalMovesStrategy {
   public execute(piece: IPiece, currPosition: number, board: Board): number[] {
     const AMOUNT_OF_ROWS_AND_COLUMNS = 8;
     const moves = new Set<number>();

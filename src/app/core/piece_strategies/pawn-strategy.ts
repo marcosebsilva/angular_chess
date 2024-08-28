@@ -1,6 +1,6 @@
-import { Board, Directions, GetMovesStrategy, IPiece } from '../types';
+import { Board, Directions, GetPseudoLegalMovesStrategy, IPiece } from '../types';
 
-export class PawnStrategy implements GetMovesStrategy {
+export class PawnStrategy implements GetPseudoLegalMovesStrategy {
   execute(piece: IPiece, currPosition: number, board: Board): number[] {
     return [
       ...this.getNormalMoves(piece, currPosition, board),

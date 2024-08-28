@@ -1,6 +1,6 @@
-import { Board, BoardBorders, Directions, GetMovesStrategy, IPiece } from '../types';
+import { Board, BoardBorders, Directions, GetPseudoLegalMovesStrategy, IPiece } from '../types';
 
-export class KingStrategy extends GetMovesStrategy {
+export class KingStrategy extends GetPseudoLegalMovesStrategy {
   public override execute(
     piece: IPiece,
     currPosition: number,

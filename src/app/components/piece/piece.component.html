@@ -1,9 +1,6 @@
 @if(piece !== null) {
 <div cdkDrag class="cursor-pointer" (cdkDragStarted)="dragStart()">
-  <div
-    class="block w-[4vw] aspect-square bg-red-600 absolute"
-    *cdkDragPlaceholder
-  ></div>
+  <div *cdkDragPlaceholder></div>
   <img [src]="piece.getIcon()" alt="teste" />
 </div>
 }
