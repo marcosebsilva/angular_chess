@@ -1,26 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BoardFactoryService } from './board-factory.service';
 import { Board, Colors, Move } from '../core/types';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class GameManagerService {
-  private boardSubject: BehaviorSubject<Board>;
-  public boardObservable: Observable<Board>;
-  public highlightedTilesObservable: BehaviorSubject<number[]>;
+  private board = signal<Board>([])
+  public highlightedTiles = signal<number[]>([]);
   private moveHistory: Move[] = []
   private currentTurnoColor: Colors = Colors.WHITE;
 
   constructor(
     private boardFactory: BoardFactoryService,
   ) {
-    this.highlightedTilesObservable = new BehaviorSubject<number[]>([]);
-    this.boardSubject = new BehaviorSubject(this.boardFactory.createBoard());
-    this.boardObservable = this.boardSubject.asObservable();
+    this.board.set(this.boardFactory.createStarterBoard());
   }
 
   /**TODO: implement this function */
-  private verifyCheck(color: Colors, board: Board = this.boardSubject.getValue()): boolean {
+  private verifyCheck(color: Colors, board: Board = this.getBoard()): boolean {
     console.log("Checking if player is in check", board);
     return false;
   }
@@ -54,13 +50,15 @@ export class GameManagerService {
       return;
     }
 
-    const newBoard = board.slice();
-    newBoard[to] = newBoard[from];
-    newBoard[from] = null;
+    const boardCopy = board.slice();
+    boardCopy[to] = boardCopy[from];
+    boardCopy[from] = null;
 
     // check if the move puts the player in check
     // those are called pseudo-legal moves
-    if (this.verifyCheck(this.currentTurnoColor, newBoard)) return;
+    if (this.verifyCheck(this.currentTurnoColor, boardCopy)) return;
+
+    this.board.set(boardCopy)
 
     this.registerMove({
       from,
@@ -70,20 +68,18 @@ export class GameManagerService {
     })
 
     this.changeTurn();
-    this.boardSubject.next(newBoard);
   }
 
   public setHighlightedTiles(tiles: number[]) {
-    this.highlightedTilesObservable.next(tiles);
-    console.log(tiles);
+    this.highlightedTiles.set(tiles);
   }
 
-  public getHighlightedSquares(): number[] {
-    return this.highlightedTilesObservable.getValue();
+  public getHighlightedTiles(): number[] {
+    return this.highlightedTiles();
   }
 
   public clearHighlightedSquares() {
-    this.highlightedTilesObservable.next([]);
+    this.highlightedTiles.set([]);
   }
 
   private changeTurn() {
@@ -100,6 +96,6 @@ export class GameManagerService {
   }
 
   public getBoard() {
-    return this.boardSubject.getValue();
+    return this.board();
   }
 }

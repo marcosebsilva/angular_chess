@@ -11,7 +11,7 @@ export class BoardFactoryService {
     public pieceFactory: PieceFactoryService
   ) {}
 
-  public createBoard(): Board {
+  public createStarterBoard(): Board {
     return [
       // white pieces
       this.pieceFactory.createRook(Colors.WHITE),
