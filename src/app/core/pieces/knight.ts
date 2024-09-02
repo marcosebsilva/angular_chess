@@ -1,7 +1,14 @@
-import { Board, GetPseudoLegalMovesStrategy, IPiece } from '../types';
+import { Piece, Colors, ChessPieces, Board } from '../types';
 
-export class KnightStrategy implements GetPseudoLegalMovesStrategy {
-  public execute(piece: IPiece, currPosition: number, board: Board): number[] {
+export class Knight extends Piece {
+  constructor(color: Colors) {
+    super(color, ChessPieces.KNIGHT.name, ChessPieces.KNIGHT.code);
+  }
+
+  override getMoves(currPosition: number, board: Board): number[] {
+    const piece = board[currPosition];
+    if (!piece) return [];
+
     const AMOUNT_OF_ROWS_AND_COLUMNS = 8;
     const moves = new Set<number>();
     const isOccupiedByFriendly = (index: number) =>

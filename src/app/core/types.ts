@@ -1,4 +1,4 @@
-export type TileContent = null | IPiece
+export type TileContent = null | Piece
 
 /** A 2D array representing the 8x8 chess board. */
 export type Board = TileContent[]
@@ -19,7 +19,7 @@ export enum Colors {
 }
 
 export abstract class GetPseudoLegalMovesStrategy {
-    public abstract execute(piece: IPiece, currPosition: number, board: Board): number[];
+    public abstract execute(piece: Piece, currPosition: number, board: Board): number[];
 }
 
 export const BoardBorders = {
@@ -40,20 +40,16 @@ export const Directions = {
     DOWN_RIGHT: -7,
 }
 
-export class IPiece {
+export abstract class Piece {
     public icon: string;
     constructor(
         private color: Colors,
         private name: string,
         private code: string,
-        public getPseudoLegalMovesStrategy: GetPseudoLegalMovesStrategy,
     ){
         this.icon = `assets/svg/chess_pieces/${color}_${name}.svg`
     }
 
-    setMoveStrategy(strategy: GetPseudoLegalMovesStrategy): void {
-        this.getPseudoLegalMovesStrategy = strategy;
-    }
 
     getColor(): Colors {
         return this.color;
@@ -71,14 +67,17 @@ export class IPiece {
         return this.icon;
     }
 
-    getMoves(currPosition: number, board: Board): number[] {
-        return this.getPseudoLegalMovesStrategy.execute(this, currPosition, board);
-    }  
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    finalizeMove(...args: unknown[]) {
+        return;
+    }
+
+    abstract getMoves(currPosition: number, board: Board): number[]
 }
 
 export interface Move {
     from: number,
     to: number,
-    piece: IPiece,
-    capturedPiece: IPiece | null
+    piece: Piece,
+    capturedPiece: Piece | null
 }
