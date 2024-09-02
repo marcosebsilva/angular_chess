@@ -1,59 +1,59 @@
 import { Injectable } from '@angular/core';
-import { PieceFactoryService } from './piece-factory.service';
 import { Board, Colors } from '../core/types';
+import { Pawn } from '../core/pieces/pawn';
+import { Bishop } from '../core/pieces/bishop';
+import { King } from '../core/pieces/king';
+import { Knight } from '../core/pieces/knight';
+import { Queen } from '../core/pieces/queen';
+import { Rook } from '../core/pieces/rook';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardFactoryService {
-
-  constructor(
-    public pieceFactory: PieceFactoryService
-  ) {}
-
   public createStarterBoard(): Board {
     return [
       // white pieces
-      this.pieceFactory.createRook(Colors.WHITE),
-      this.pieceFactory.createKnight(Colors.WHITE),
-      this.pieceFactory.createBishop(Colors.WHITE),
-      this.pieceFactory.createQueen(Colors.WHITE),
-      this.pieceFactory.createKing(Colors.WHITE),
-      this.pieceFactory.createBishop(Colors.WHITE),
-      this.pieceFactory.createKnight(Colors.WHITE),
-      this.pieceFactory.createRook(Colors.WHITE),
+      new Rook(Colors.WHITE),
+      new Knight(Colors.WHITE),
+      new Bishop(Colors.WHITE),
+      new Queen(Colors.WHITE),
+      new King(Colors.WHITE),
+      new Bishop(Colors.WHITE),
+      new Knight(Colors.WHITE),
+      new Rook(Colors.WHITE),
       // white pawns
-      this.pieceFactory.createPawn(Colors.WHITE),
-      this.pieceFactory.createPawn(Colors.WHITE),
-      this.pieceFactory.createPawn(Colors.WHITE),
-      this.pieceFactory.createPawn(Colors.WHITE),
-      this.pieceFactory.createPawn(Colors.WHITE),
-      this.pieceFactory.createPawn(Colors.WHITE),
-      this.pieceFactory.createPawn(Colors.WHITE),
-      this.pieceFactory.createPawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
+      new Pawn(Colors.WHITE),
       // empty tiles
       null, null, null, null, null, null, null, null,
       null, null, null, null, null, null, null, null,
       null, null, null, null, null, null, null, null,
       null, null, null, null, null, null, null, null,
       // black pawns
-      this.pieceFactory.createPawn(Colors.BLACK),
-      this.pieceFactory.createPawn(Colors.BLACK),
-      this.pieceFactory.createPawn(Colors.BLACK),
-      this.pieceFactory.createPawn(Colors.BLACK),
-      this.pieceFactory.createPawn(Colors.BLACK),
-      this.pieceFactory.createPawn(Colors.BLACK),
-      this.pieceFactory.createPawn(Colors.BLACK),
-      this.pieceFactory.createPawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
+      new Pawn(Colors.BLACK),
       // black pieces
-      this.pieceFactory.createRook(Colors.BLACK),
-      this.pieceFactory.createKnight(Colors.BLACK),
-      this.pieceFactory.createBishop(Colors.BLACK),
-      this.pieceFactory.createQueen(Colors.BLACK),
-      this.pieceFactory.createKing(Colors.BLACK),
-      this.pieceFactory.createBishop(Colors.BLACK),
-      this.pieceFactory.createKnight(Colors.BLACK),
-      this.pieceFactory.createRook(Colors.BLACK),
+      new Rook(Colors.BLACK),
+      new Knight(Colors.BLACK),
+      new Bishop(Colors.BLACK),
+      new Queen(Colors.BLACK),
+      new King(Colors.BLACK),
+      new Bishop(Colors.BLACK),
+      new Knight(Colors.BLACK),
+      new Rook(Colors.BLACK),
     ]
   }
 }

@@ -1,98 +1,123 @@
 import { Injectable, signal } from '@angular/core';
 import { BoardFactoryService } from './board-factory.service';
 import { Board, Colors, Move } from '../core/types';
+import { MoveValidator } from '../core/validators/MoveValidator';
+import { StateValidator } from '../core/validators/StateValidator';
 
 @Injectable()
 export class GameManagerService {
-  private board = signal<Board>([])
-  public highlightedTiles = signal<number[]>([]);
-  private moveHistory: Move[] = []
-  private currentTurnoColor: Colors = Colors.WHITE;
+  private board = signal<Board>([]);
+  private moveHistory: Move[] = [];
+  private currentTurnColor = signal<Colors>(Colors.WHITE);
+  private feedback = signal<string>('');
 
-  constructor(
-    private boardFactory: BoardFactoryService,
-  ) {
+  constructor(private boardFactory: BoardFactoryService) {
     this.board.set(this.boardFactory.createStarterBoard());
   }
 
-  /**TODO: implement this function */
-  private verifyCheck(color: Colors, board: Board = this.getBoard()): boolean {
-    console.log("Checking if player is in check", board);
-    return false;
+  private updateFeedback(message: string) {
+    this.feedback.set(message);
   }
 
-  private handleError(message: string){
-    console.log(message);
-  } 
+  public getFeedback() {
+    return this.feedback();
+  }
 
-  public movePiece(from: number, to: number) {
-    /**TODO: fix the return to show a error of some kind */
-    const board = this.getBoard();
-    // source tile has no piece
-    if (board[from] == null) {
-      this.handleError("There is no piece in this tile");
-      return
+  private handleCastling(color: Colors, side: 'king' | 'queen') {
+    if(StateValidator.isKingInCheck(color, this.getBoard())) {
+      this.updateFeedback('you will get checked during this castle');
     };
-    // piece in source dont belong to player
-    if (board[from].getColor() !== this.currentTurnoColor) {
-      this.handleError("This piece does not belong to" + this.currentTurnoColor);
-      return
-    };
-    // destination piece is from the same player
-    if (board[from] !== null && board[to]?.getColor() == this.currentTurnoColor) {
-      this.handleError("You can't move to a tile with a piece of the same color");
-      return;
-    } 
-    
-    // destination is not a legal move 
-    if(!board[from].getMoves(from, board).includes(to)) {
-      this.handleError("This is not a legal move");
-      return;
+
+    let kingIndex;
+    switch (color) {
+      case Colors.WHITE:
+        kingIndex = side == 'king' ? 4 : 60;
+        break;
+      case Colors.BLACK:
+        kingIndex = side == 'king' ? 60 : 4;
     }
 
-    const boardCopy = board.slice();
-    boardCopy[to] = boardCopy[from];
-    boardCopy[from] = null;
+    const rookIndex = kingIndex + (side == 'king' ? 3 : -4);
+    const newKingIndex = kingIndex + (side == 'king' ? 2 : -2);
+    const newRookIndex = kingIndex + (side == 'king' ? 1 : -1);
 
-    // check if the move puts the player in check
-    // those are called pseudo-legal moves
-    if (this.verifyCheck(this.currentTurnoColor, boardCopy)) return;
-
-    this.board.set(boardCopy)
-
-    this.registerMove({
-      from,
-      to,
-      piece: board[from],
-      capturedPiece: board[to]
-    })
-
+    this.registerMove([
+      {
+        from: kingIndex,
+        to: newKingIndex,
+      },
+      {
+        from: rookIndex,
+        to: newRookIndex,
+      },
+    ]);
     this.changeTurn();
   }
 
-  public setHighlightedTiles(tiles: number[]) {
-    this.highlightedTiles.set(tiles);
+  public movePiece(from: number, to: number) {
+    const board = this.getBoard();
+
+    try {
+      MoveValidator.validateMove(from, to, this.getTurn(), board);
+      const isCastle =
+        board[from]?.getName() == 'king' && Math.abs(from - to) == 2;
+      if (isCastle) {
+        this.handleCastling(this.currentTurnColor(), from - to > 0 ? 'queen' : 'king');
+        return;
+      }
+
+  
+      this.registerMove({ from, to });
+      this.changeTurn();
+    } catch (error: unknown) {
+      this.updateFeedback((error as Error).message);
+    }
   }
 
-  public getHighlightedTiles(): number[] {
-    return this.highlightedTiles();
-  }
-
-  public clearHighlightedSquares() {
-    this.highlightedTiles.set([]);
-  }
-
-  private changeTurn() {
-    if(this.currentTurnoColor == Colors.WHITE) {
-      this.currentTurnoColor = Colors.BLACK;
+  private registerMove(
+    move: { from: number; to: number } | { from: number; to: number }[]
+  ) {
+    if (Array.isArray(move)) {
+      move.forEach((m) => {
+        this.registerMove({ from: m.from, to: m.to });
+      });
       return;
     }
 
-    this.currentTurnoColor = Colors.WHITE;
+    const currBoard = this.getBoard();
+    const { from, to } = move;
+
+    if (currBoard[from] == null) return;
+
+    this.board.update((board) => {
+      board[to] = board[from];
+      board[from] = null;
+
+      board[to]?.finalizeMove();
+      return [...board];
+    });
+
+    this.moveHistory.push({
+      from,
+      to,
+      piece: currBoard[from],
+      capturedPiece: currBoard[to],
+    });
+
+    this.feedback.set('');
   }
 
-  private registerMove(move: Move) {
-    this.moveHistory.push(move);
+  private changeTurn() {
+    if (this.currentTurnColor() == Colors.WHITE) {
+      this.currentTurnColor.set(Colors.BLACK);
+      return;
+    }
+
+    this.currentTurnColor.set(Colors.WHITE);
+  }
+
+  public getTurn(): Colors {
+    return this.currentTurnColor();
   }
 
   public getBoard() {
