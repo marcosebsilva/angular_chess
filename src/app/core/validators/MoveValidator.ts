@@ -8,7 +8,7 @@ export class MoveValidator {
     from: number,
     to: number,
     color: Colors,
-    board: Board
+    board: Board,
   ): void {
     // source tile has no piece
     if (board[from] == null) {
@@ -98,4 +98,5 @@ export class MoveValidator {
 
     return true;
   }
+
 }

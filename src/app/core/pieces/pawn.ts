@@ -16,11 +16,6 @@ export class Pawn extends Piece {
     ];
   }
 
-  /**TODO: implement En Passant rule */
-  private getEnPassantMoves(): number[] {
-    return [];
-  }
-
   /**
    * Returns forward moves, one or two steps, depending on the piece color and position.
    *
