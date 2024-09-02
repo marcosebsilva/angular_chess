@@ -43,4 +43,24 @@ export class StateValidator {
 
     return isInCheck;
   }
+
+  public static isCheckmate(color: Colors, board: Board): boolean {
+    const pieces = board.filter((piece) => piece?.getColor() == color);
+
+    for (const piece of pieces) {
+      if (!piece) continue;
+      const moves = piece.getMoves(board.indexOf(piece), board);
+      for (const move of moves) {
+        const newBoard = [...board];
+        newBoard[move] = piece;
+        newBoard[board.indexOf(piece)] = null;
+
+        if (!this.isKingInCheck(color, newBoard)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
 }

@@ -65,10 +65,15 @@ export class GameManagerService {
         this.handleCastling(this.currentTurnColor(), from - to > 0 ? 'queen' : 'king');
         return;
       }
-
   
       this.registerMove({ from, to });
       this.changeTurn();
+
+      if(StateValidator.isKingInCheck(this.getTurn(), this.getBoard())) {
+        if(StateValidator.isCheckmate(this.getTurn(), this.getBoard())) {
+          this.updateFeedback('Checkmate!');
+        }
+      }
     } catch (error: unknown) {
       this.updateFeedback((error as Error).message);
     }
