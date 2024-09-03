@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Board, Colors } from '../core/types';
+import { Board } from '../core/types';
 import { Pawn } from '../core/pieces/pawn';
 import { Bishop } from '../core/pieces/bishop';
 import { King } from '../core/pieces/king';
 import { Knight } from '../core/pieces/knight';
 import { Queen } from '../core/pieces/queen';
 import { Rook } from '../core/pieces/rook';
+import { Colors } from '../core/enums';
 
 @Injectable({
   providedIn: 'root'
@@ -56,4 +57,9 @@ export class BoardFactoryService {
       new Rook(Colors.BLACK),
     ]
   }
+
+  // TODO: implement this method
+  // public createFromFen(fen: string): Board {
+  //   return []
+  // }
 }

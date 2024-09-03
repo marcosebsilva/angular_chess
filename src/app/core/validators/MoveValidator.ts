@@ -1,6 +1,7 @@
 import { King } from '../pieces/king';
 import { Rook } from '../pieces/rook';
-import { Board, Colors } from '../types';
+import { Colors } from '../enums'
+import { Board } from '../types';
 import { StateValidator } from './StateValidator';
 
 export class MoveValidator {

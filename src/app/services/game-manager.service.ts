@@ -1,13 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import { BoardFactoryService } from './board-factory.service';
-import { Board, Colors, Move } from '../core/types';
+import { Board, Move, Piece } from '../core/types';
 import { MoveValidator } from '../core/validators/MoveValidator';
 import { StateValidator } from '../core/validators/StateValidator';
+import { Colors } from '../core/enums';
 
 @Injectable()
 export class GameManagerService {
   private board = signal<Board>([]);
-  private moveHistory: Move[] = [];
+  private moveHistory = signal<Move[]>([]);
   private currentTurnColor = signal<Colors>(Colors.WHITE);
   private feedback = signal<string>('');
 
@@ -24,34 +25,30 @@ export class GameManagerService {
   }
 
   private handleCastling(color: Colors, side: 'king' | 'queen') {
-    if(StateValidator.isKingInCheck(color, this.getBoard())) {
+    if (StateValidator.isKingInCheck(color, this.getBoard())) {
       this.updateFeedback('you will get checked during this castle');
-    };
-
-    let kingIndex;
-    switch (color) {
-      case Colors.WHITE:
-        kingIndex = side == 'king' ? 4 : 60;
-        break;
-      case Colors.BLACK:
-        kingIndex = side == 'king' ? 60 : 4;
     }
 
+    const kingIndex = color == Colors.BLACK ? 60 : 4;
     const rookIndex = kingIndex + (side == 'king' ? 3 : -4);
     const newKingIndex = kingIndex + (side == 'king' ? 2 : -2);
     const newRookIndex = kingIndex + (side == 'king' ? 1 : -1);
-
+    
+    this.changeTurn();
     this.registerMove([
       {
         from: kingIndex,
         to: newKingIndex,
+        isCastle: true,
+        castleSide: side,
       },
       {
         from: rookIndex,
         to: newRookIndex,
+        isCastle: true,
+        castleSide: side,
       },
     ]);
-    this.changeTurn();
   }
 
   public movePiece(from: number, to: number) {
@@ -62,30 +59,27 @@ export class GameManagerService {
       const isCastle =
         board[from]?.getName() == 'king' && Math.abs(from - to) == 2;
       if (isCastle) {
-        this.handleCastling(this.currentTurnColor(), from - to > 0 ? 'queen' : 'king');
+        this.handleCastling(
+          this.currentTurnColor(),
+          from - to > 0 ? 'queen' : 'king'
+        );
         return;
       }
-  
-      this.registerMove({ from, to });
-      this.changeTurn();
 
-      if(StateValidator.isKingInCheck(this.getTurn(), this.getBoard())) {
-        if(StateValidator.isCheckmate(this.getTurn(), this.getBoard())) {
-          this.updateFeedback('Checkmate!');
-        }
-      }
+      this.changeTurn();
+      this.registerMove({ from, to, isCastle: false, castleSide: null, });
     } catch (error: unknown) {
       this.updateFeedback((error as Error).message);
     }
   }
 
-  private registerMove(
-    move: { from: number; to: number } | { from: number; to: number }[]
+  private registerMove (
+    move:
+      | Omit<Move, 'piece' | 'capturedPiece' | 'isCheckmate' | 'isCheck'>
+      | Omit<Move, 'piece' | 'capturedPiece'| 'isCheckmate' | 'isCheck'>[]
   ) {
     if (Array.isArray(move)) {
-      move.forEach((m) => {
-        this.registerMove({ from: m.from, to: m.to });
-      });
+      move.forEach((m) => this.registerMove(m));
       return;
     }
 
@@ -94,20 +88,40 @@ export class GameManagerService {
 
     if (currBoard[from] == null) return;
 
+    const piece = currBoard[from] as Piece;
+    const capturedPiece = currBoard[to];
+
     this.board.update((board) => {
       board[to] = board[from];
       board[from] = null;
 
-      board[to]?.finalizeMove();
+      if (piece.getName() == 'pawn') {
+        piece.finalizeMove(from, to);
+      }
+
       return [...board];
     });
 
-    this.moveHistory.push({
-      from,
-      to,
-      piece: currBoard[from],
-      capturedPiece: currBoard[to],
-    });
+    const isCheck = StateValidator.isKingInCheck(this.getTurn(), this.getBoard());
+    const isCheckmate = StateValidator.isCheckmate(this.getTurn(), this.getBoard());
+
+    if(isCheckmate) {
+      alert('Checkmate!')
+    }
+
+    this.moveHistory.update((prev) => [
+      ...prev,
+      {
+        from,
+        to,
+        piece,
+        isCheck,
+        isCheckmate,
+        capturedPiece,
+        isCastle: move.isCastle,
+        castleSide: move.castleSide || null,
+      },
+    ]);
 
     this.feedback.set('');
   }
@@ -127,5 +141,9 @@ export class GameManagerService {
 
   public getBoard() {
     return this.board();
+  }
+
+  public getMoveHistory() {
+    return this.moveHistory();
   }
 }

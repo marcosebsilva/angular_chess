@@ -1,4 +1,5 @@
-import { Board, Colors, Directions } from '../types';
+import { Colors, Directions } from '../enums';
+import { Board } from '../types';
 
 export class StateValidator {
   public static isKingInCheck(color: Colors, board: Board): boolean {
