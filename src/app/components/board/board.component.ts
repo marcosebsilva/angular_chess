@@ -4,11 +4,12 @@ import { PieceComponent } from '../piece/piece.component';
 import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { GameManagerService } from '../../services/game-manager.service';
 import { AlgebraicParser } from '../../core/AlgebraicParser';
+import { HistoryComponent } from '../history/history.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [TileComponent, PieceComponent, CdkDropListGroup],
+  imports: [TileComponent, PieceComponent, CdkDropListGroup, HistoryComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
   providers: [GameManagerService],

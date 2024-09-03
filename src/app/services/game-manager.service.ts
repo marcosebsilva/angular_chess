@@ -10,7 +10,7 @@ export class GameManagerService {
   private board = signal<Board>([]);
   private moveHistory = signal<Move[]>([]);
   private currentTurnColor = signal<Colors>(Colors.WHITE);
-  private feedback = signal<string>('');
+  private feedback = signal<string>('Corno manso');
 
   constructor(private boardFactory: BoardFactoryService) {
     this.board.set(this.boardFactory.createStarterBoard());

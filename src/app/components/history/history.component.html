@@ -1,0 +1,11 @@
+<div
+  class="bg-white w-fit rounded-md border-2 border-black-300 text-black h-fit"
+>
+  <h1 class="text-lg p-4 pb-0 font-bold text-nowrap">Move history</h1>
+  <hr>
+  <div class="px-4">
+    @for(move of history(); track $index) {
+    <div class="font-bold text-black">{{ move }}</div>
+    }
+  </div>
+</div>

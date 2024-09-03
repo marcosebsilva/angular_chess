@@ -5,16 +5,9 @@
         <app-tile [index]="$index"></app-tile>
       }
     </div>
-    <div class="bg-blue-600 p-3 text-white w-32 h-fit">
-      Histórico
-      <div class="bg-red-400">
-        @for(move of history(); track $index) {
-          <div>{{move}}</div>
-        }
-      </div>
-    </div>
+    <app-history></app-history>
   </div>
   @if(feedback() !== '') {
-    <div class="bg-red-500 text-white w-fit p-2">{{feedback()}}</div>
+    <div class="bg-red-500 text-white w-fit p-2 absolute">{{feedback()}}</div>
   }
 </div>
