@@ -58,7 +58,8 @@ export class BoardFactoryService {
     ]
   }
 
-  // TODO: implement this method
+  // TODO: i still need to do this
+  // it will help with loading new games from a FEN string 
   // public createFromFen(fen: string): Board {
   //   return []
   // }

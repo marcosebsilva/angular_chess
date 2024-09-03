@@ -1,7 +1,11 @@
 <div
   [ngClass]="{
-    'bg-sky-800': isBlack(),
-    'bg-zinc-200': !isBlack(),
+    'border-2': true,
+    'bg-sky-800': !isHighlighted() && isBlack(),
+    'bg-zinc-200': !isHighlighted() && !isBlack(),
+    'bg-red-600': isHighlighted(),
+    'bg-red-300': isLastMove(),
+    'border-white': !isHighlighted(),
   }"
   class="aspect-square relative"
   cdkDropList
@@ -9,6 +13,6 @@
   (cdkDropListDropped)="drop($event)"
 >
   @if(piece() !== null) {
-    <app-piece [piece]="piece()"></app-piece>
+    <app-piece [piece]="piece()" (startDragging)="highlightTiles(index)"></app-piece>
   }
 </div>

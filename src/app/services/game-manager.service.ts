@@ -11,7 +11,7 @@ export class GameManagerService {
   private moveHistory = signal<Move[]>([]);
   private currentTurnColor = signal<Colors>(Colors.WHITE);
   private feedback = signal<string>('');
-
+  private highlightedTiles = signal<number[]>([]);
   constructor(private boardFactory: BoardFactoryService) {
     this.board.set(this.boardFactory.createStarterBoard());
   }
@@ -22,6 +22,15 @@ export class GameManagerService {
 
   public getFeedback() {
     return this.feedback();
+  }
+  public highlightTiles(moves: number[]) {
+    this.highlightedTiles.set(moves);
+  }
+  public clearHighlightedTiles() {
+    this.highlightedTiles.set([]);
+  }
+  public getHighlightedTiles() {
+    return this.highlightedTiles();
   }
 
   private handleCastling(color: Colors, side: 'king' | 'queen') {

@@ -2,6 +2,7 @@ import { Colors, Directions } from '../enums';
 import { Board } from '../types';
 
 export class StateValidator {
+  // REFACTOR: it doesn't seem to properly validate board border moves
   public static isKingInCheck(color: Colors, board: Board): boolean {
     const king = board.find(
       (piece) => piece?.getName() == 'king' && piece.getColor() == color

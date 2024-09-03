@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BoardFactoryService } from './board-factory.service';
-import { ChessPieces, Colors } from '../core/types';
+import { Colors, ChessPieces } from '../core/enums';
 
 describe('BoardFactoryService', () => {
   let service: BoardFactoryService;
