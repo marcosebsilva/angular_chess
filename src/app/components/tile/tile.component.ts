@@ -24,10 +24,6 @@ export class TileComponent {
     return (row + col) % 2 == 1;
   });
 
-  isHighlighted = computed(() => {
-    return this.gameManager.getHighlightedTiles().includes(this.index);
-  })
-
   piece = computed(() => {
     return this.gameManager.getBoard()[this.index];
   });
@@ -37,15 +33,5 @@ export class TileComponent {
     const to = event.container.data;
 
     this.gameManager.movePiece(from, to);
-    this.gameManager.clearHighlightedSquares(); 
-  }
-
-  highlightSquares(){
-    const piece = this.piece();
-    if(!piece) return;
-    
-    const board = this.gameManager.getBoard();
-    const legalMoves = piece.getMoves(this.index, board);
-    this.gameManager.setHighlightedTiles(legalMoves);
   }
 }

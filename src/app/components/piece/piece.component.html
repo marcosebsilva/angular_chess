@@ -1,6 +1,6 @@
 @if(piece !== null) {
-<div cdkDrag class="cursor-pointer" (cdkDragStarted)="dragStart()">
+<div cdkDrag class="cursor-pointer w-20" (cdkDragStarted)="dragStart()">
   <div *cdkDragPlaceholder></div>
-  <img [src]="piece.getIcon()" alt="teste" />
+  <img [src]="piece.getIcon()" alt="teste" class="w-full"/>
 </div>
 }

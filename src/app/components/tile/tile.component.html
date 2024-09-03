@@ -1,16 +1,14 @@
 <div
-    [ngClass]="{
-        'bg-sky-800': isBlack(),
-        'bg-zinc-200': !isBlack(),
-        'bg-green-300': isHighlighted()
-    }"
-    class=" aspect-square relative"
-    cdkDropList
-    [cdkDropListData]="index"
-    (cdkDropListDropped)="drop($event)"
+  [ngClass]="{
+    'bg-sky-800': isBlack(),
+    'bg-zinc-200': !isBlack(),
+  }"
+  class="aspect-square relative"
+  cdkDropList
+  [cdkDropListData]="index"
+  (cdkDropListDropped)="drop($event)"
 >
-    <div class="absolute ">{{index}}</div>
-    @if(piece() !== null) {
-        <app-piece [piece]="piece()" (startDragging)="highlightSquares()"></app-piece>
-    }
+  @if(piece() !== null) {
+    <app-piece [piece]="piece()"></app-piece>
+  }
 </div>
