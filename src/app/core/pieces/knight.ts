@@ -1,4 +1,5 @@
-import { Piece, Colors, ChessPieces, Board } from '../types';
+import { ChessPieces, Colors } from "../enums";
+import { Piece, Board } from "../types";
 
 export class Knight extends Piece {
   constructor(color: Colors) {

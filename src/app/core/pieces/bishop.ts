@@ -1,4 +1,4 @@
-import { ChessPieces, Colors, Directions } from '../types';
+import { ChessPieces, Colors, Directions } from '../enums';
 import { SlidingPiece } from './sliding-piece';
 
 export class Bishop extends SlidingPiece {

@@ -1,4 +1,5 @@
-import { Piece, Board, BoardBorders, Colors } from "../types";
+import { Colors } from "../enums";
+import { Piece, Board, BoardBorders } from "../types";
 
 export abstract class SlidingPiece extends Piece {
   constructor(color: Colors, name: string, code: string, private directions: Record<string, number>) {

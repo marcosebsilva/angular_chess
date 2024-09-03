@@ -1,4 +1,5 @@
-import { Piece, Colors, ChessPieces, Board, Directions } from '../types';
+import { Colors, ChessPieces, Directions } from '../enums';
+import { Piece, Board, BoardBorders } from '../types';
 
 export class Pawn extends Piece {
   hasMovedTwoSquares = false;
@@ -80,6 +81,7 @@ export class Pawn extends Piece {
     if (!hasPieceOnRightDiagonal && !hasPieceOnLeftDiagonal) return moves;
 
     if (
+      !BoardBorders.RIGHT.includes(rightDiagonalIndex) &&
       hasPieceOnRightDiagonal &&
       rightDiagonalPiece?.getColor() != piece.getColor()
     ) {
@@ -87,6 +89,7 @@ export class Pawn extends Piece {
     }
 
     if (
+      !BoardBorders.LEFT.includes(leftDiagonalIndex) &&
       hasPieceOnLeftDiagonal &&
       leftDiagonalPiece?.getColor() != piece.getColor()
     ) {

@@ -1,11 +1,10 @@
 import {
-  Board,
-  BoardBorders,
   ChessPieces,
   Colors,
   Directions,
-  Piece,
-} from '../types';
+} from '../enums';
+import { Piece, Board, BoardBorders } from '../types';
+
 import { Rook } from './rook';
 
 export class King extends Piece {

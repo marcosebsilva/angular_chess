@@ -1,5 +1,5 @@
-import { ChessPieces, Colors, Directions } from '../types';
-import { SlidingPiece } from './sliding-piece';
+import { Colors, ChessPieces, Directions } from "../enums";
+import { SlidingPiece } from "./sliding-piece";
 
 export class Rook extends SlidingPiece {
   private hasMoved = false;
