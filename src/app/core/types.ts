@@ -2,9 +2,7 @@ import { Colors } from "./enums";
 
 export type TileContent = null | Piece;
 
-/** A 2D array representing the 8x8 chess board. */
 export type Board = TileContent[];
-
 
 export abstract class GetPseudoLegalMovesStrategy {
   public abstract execute(
@@ -14,12 +12,6 @@ export abstract class GetPseudoLegalMovesStrategy {
   ): number[];
 }
 
-export const BoardBorders = {
-  LEFT: [0, 8, 16, 24, 32, 40, 48, 56],
-  RIGHT: [7, 15, 23, 31, 39, 47, 55, 63],
-  DOWN: [0, 1, 2, 3, 4, 5, 6, 7],
-  UP: [56, 57, 58, 59, 60, 61, 62, 63],
-};
 
 
 export abstract class Piece {

@@ -1,9 +1,10 @@
 import {
+  BoardBorders,
   ChessPieces,
   Colors,
   Directions,
 } from '../enums';
-import { Piece, Board, BoardBorders } from '../types';
+import { Piece, Board } from '../types';
 
 import { Rook } from './rook';
 

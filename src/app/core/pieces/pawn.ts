@@ -1,5 +1,5 @@
-import { Colors, ChessPieces, Directions } from '../enums';
-import { Piece, Board, BoardBorders } from '../types';
+import { Colors, ChessPieces, Directions, BoardBorders } from '../enums';
+import { Piece, Board } from '../types';
 
 export class Pawn extends Piece {
   hasMovedTwoSquares = false;
